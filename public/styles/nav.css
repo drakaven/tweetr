@@ -6,6 +6,7 @@
   background-color: #00a087;
   color: #ebfdff;
   padding: 0 2em 0 2em;
+  z-index: 10;
 
 }
 #nav-bar .logo {
@@ -18,13 +19,16 @@
   float: left;
   font-size: 200%;
   line-height: 80px;
+
 }
 
 .container {
+  z-index: 1;
+  height: 500px;
   width : 450px;
   margin: 0 auto 0 auto;
   background-color: white;
   position: relative;
   top: 140px;
-
 }
+
