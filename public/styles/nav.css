@@ -1,10 +1,11 @@
 #nav-bar{
   position: fixed;
+  top: 0;
   height: 80px;
   width: 100%;
   background-color: #00a087;
   color: #ebfdff;
-  padding: 0em 2em 0em 2em;
+  padding: 0 2em 0 2em;
 
 }
 #nav-bar .logo {
@@ -17,4 +18,13 @@
   float: left;
   font-size: 200%;
   line-height: 80px;
+}
+
+.container {
+  width : 450px;
+  margin: 0 auto 0 auto;
+  background-color: white;
+  position: relative;
+  top: 140px;
+
 }
