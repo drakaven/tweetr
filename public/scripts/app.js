@@ -20,24 +20,23 @@ $(document).ready(function (tweetObj) {
       tweetContainer.append(createTweetElement(tweetData[tweet]));
     }
   };
-  //self executing
+  //cannot use self executing
   const loadTweets = function () {
     $.get("/tweets", function (data, status) {
+      $('#tweetContainer')[0].innerHTML = null;
       renderTweets(data);
     });
-  }();
-  console.log(loadTweets);
+  };
 
+  loadTweets();
+
+  console.log(loadTweets);
   $('#form1').on('submit', function (event) {
     event.preventDefault();
     let newData = $(this).serialize();
     $.post("/tweets",
       newData,
-      function () {
-        $.get("/tweets", function (data, status) {
-          renderTweets(data);
-        });
-      });
+      loadTweets())
   });
 //document ready close tag
 });
