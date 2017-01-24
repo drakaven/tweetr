@@ -15,6 +15,13 @@ $(document).ready(function () {
   });
 //
 */
+  const escape = function(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
+
   $.ajaxSetup({
     beforeSend: function() {
       $('#loader').show();
@@ -62,9 +69,10 @@ $(document).ready(function () {
 
   $('#form1').on('submit', function (event) {
     event.preventDefault();
-    let newData = $(this).serialize();
-    $.post("/tweets",
-      newData).done(function () {
+    console.log(escape($(this).children('textarea')[0].value))
+    $.post("/tweets"
+      , "text=" + escape($(this).children('textarea')[0].value)
+      ).done(function () {
       console.log("done");
       loadTweets();
     });
