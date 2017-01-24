@@ -1,6 +1,20 @@
-$(document).ready(function (tweetObj) {
+$(document).ready(function () {
 
-
+  // use delegate
+  /*
+  $('#tweetContainer').on('mouseenter', 'article' ,function(event){
+    event.stopPropagation();
+    let element = $(this).find('img');
+    let pathSrc = element[0].src.replace("_50.png", "_100.png");
+    element.attr('src' , pathSrc);
+    console.log(pathSrc);
+    }).on('mouseout', 'article' ,function(event) {let adjustHeight = Math.floor($(this).height() * 1.2);
+    let element = $(this).find('img');
+    let pathSrc = element[0].src.replace("_100.png", "_50.png");
+    element.attr('src' , pathSrc);
+  });
+//
+*/
   $.ajaxSetup({
     beforeSend: function() {
       $('#loader').show();
@@ -15,15 +29,15 @@ $(document).ready(function (tweetObj) {
   const createTweetElement = function (tweetObject) {
     let daysAgo = Math.floor((Date.now() - tweetObject.created_at) / 86400000);
     (!daysAgo) ? daysAgo = "Posted: Today!" : daysAgo = `Posted: ${daysAgo} days ago` ;
-    let newArticle = $('<article id="tweet1" class="tweet"></article>');
+    let newArticle = $('<article class="tweet"></article>');
     newArticle[0].innerHTML = `<header>
-      <img id="tweeterAvatar" src=${tweetObject.user.avatars.small}>
-      <span id="tweeterName">${tweetObject.user.name}</span>
-      <span id="tweeterId">${tweetObject.user.handle}</span>
+      <img class="tweeterAvatar" src=${tweetObject.user.avatars.small}>
+      <h3 class="tweeterName">${tweetObject.user.name}</h3>
+      <p class="tweeterId">${tweetObject.user.handle}</p>
       </header>
       <p class="tweetText">${tweetObject.content.text}</p>
       <footer>
-      <span class="postedDate">${daysAgo}</span>
+      <p class="postedDate">${daysAgo}</p>
       </footer>`;
     return newArticle[0];
   };
