@@ -38,6 +38,7 @@ $(document).ready(function () {
       <p class="tweetText">${tweetObject.content.text}</p>
       <footer>
       <p class="postedDate">${daysAgo}</p>
+      <img class="kiss" src="/images/kiss-lips-icon.png">
       </footer>`;
     return newArticle[0];
   };

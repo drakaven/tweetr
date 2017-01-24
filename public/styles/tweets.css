@@ -20,6 +20,10 @@ padding-top:10px;
   font-size: 160%;
 }
 
+.tweet:hover .tweetText{
+  padding: 10px;
+}
+
 .tweet header{
   background-color: #f7f7f7;
   padding: 6px;
@@ -58,4 +62,16 @@ padding-top:10px;
 .tweet footer .postedDate {
   margin: 0;
   padding: 10px 6px;
+  float: left;
+}
+
+.tweet footer .kiss{
+  width: 50px;
+  display: none;
+  float: right;
+}
+
+.tweet:hover footer .kiss{
+  display: block;
+
 }
