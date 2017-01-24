@@ -13,15 +13,17 @@ $(document).ready(function (tweetObj) {
 
 
   const createTweetElement = function (tweetObject) {
+    let daysAgo = Math.floor((Date.now() - tweetObject.created_at) / 86400000);
+    (!daysAgo) ? daysAgo = "Posted: Today!" : daysAgo = `Posted: ${daysAgo} days ago` ;
     let newArticle = $('<article id="tweet1" class="tweet"></article>');
     newArticle[0].innerHTML = `<header>
-      <img id="tweeterAvatar" href=${tweetObject.user.avatars.small}>
+      <img id="tweeterAvatar" src=${tweetObject.user.avatars.small}>
       <span id="tweeterName">${tweetObject.user.name}</span>
       <span id="tweeterId">${tweetObject.user.handle}</span>
       </header>
       <p class="tweetText">${tweetObject.content.text}</p>
       <footer>
-      <span class="postedDate">${tweetObject.created_at}</span>
+      <span class="postedDate">${daysAgo}</span>
       </footer>`;
     return newArticle[0];
   };
