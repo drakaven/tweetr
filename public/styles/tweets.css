@@ -75,3 +75,9 @@ padding-top:10px;
   display: block;
 
 }
+
+#loader{
+  width:450px;
+  background-color: white;
+  padding: auto;
+}

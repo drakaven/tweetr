@@ -23,6 +23,22 @@
 
 }
 
+#compose{
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top:20px;
+  float: right;
+}
+
+#compose:hover{
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top:20px;
+  box-shadow: 5px 5px 10px black;
+}
+
 .container {
   z-index: 1;
   height: auto;
@@ -30,7 +46,7 @@
   margin: 0 auto;
   background-color: white;
   position: relative;
-  padding-bottom: auto;
+  padding-bottom: 10px;
   top: 140px;
 }
 

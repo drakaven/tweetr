@@ -1,20 +1,5 @@
 $(document).ready(function () {
 
-  // use delegate
-  /*
-  $('#tweetContainer').on('mouseenter', 'article' ,function(event){
-    event.stopPropagation();
-    let element = $(this).find('img');
-    let pathSrc = element[0].src.replace("_50.png", "_100.png");
-    element.attr('src' , pathSrc);
-    console.log(pathSrc);
-    }).on('mouseout', 'article' ,function(event) {let adjustHeight = Math.floor($(this).height() * 1.2);
-    let element = $(this).find('img');
-    let pathSrc = element[0].src.replace("_100.png", "_50.png");
-    element.attr('src' , pathSrc);
-  });
-//
-*/
   const escape = function(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
@@ -25,11 +10,20 @@ $(document).ready(function () {
   $.ajaxSetup({
     beforeSend: function() {
       $('#loader').show();
+      $('#tweetContainer')[0].innerHTML = null;
     },
     complete: function(){
+
       $('#loader').hide();
+
     }
   });
+
+  $('#compose').on('click', function(){
+    console.log("clicked");
+    $('.new-tweet').slideToggle(100);
+    $('.new-tweet').find('textarea').focus();
+  })
 
 
 
