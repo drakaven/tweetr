@@ -27,9 +27,12 @@
   border: 2px solid black;
   padding: 10px;
   border-radius: 8px;
-  margin-top:20px;
-  line-height: 10px;
+  margin-top:10px;
   float: right;
+}
+
+#compose span{
+  vertical-align: super;
 }
 
 #compose img{
@@ -38,10 +41,7 @@
 
 
 #compose:active{
-  border: 2px solid black;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top:20px;
+  border: 4px solid black;
   box-shadow: 5px 5px 10px black;
 }
 
