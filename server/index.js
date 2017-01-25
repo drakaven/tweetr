@@ -22,6 +22,7 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
   let helpers = require("./lib/data-helpers.js")(db);
   let tweetsRoutes = require("./routes/tweets")(helpers);
   app.use("/tweets", tweetsRoutes);
+  db.close();
 });
 
 
