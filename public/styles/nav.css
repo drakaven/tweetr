@@ -28,7 +28,12 @@
   padding: 10px;
   border-radius: 8px;
   margin-top:20px;
+  line-height: 10px;
   float: right;
+}
+
+#compose img{
+  width:30px;
 }
 
 #compose:hover{

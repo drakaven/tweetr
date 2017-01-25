@@ -26,6 +26,8 @@ padding-top:10px;
 
 .tweet header{
   background-color: #f7f7f7;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
   padding: 6px;
   overflow: auto;
 }

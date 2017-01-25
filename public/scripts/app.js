@@ -10,12 +10,12 @@ $(document).ready(function () {
   $.ajaxSetup({
     beforeSend: function() {
       $('#loader').show();
-      $('#tweetContainer')[0].innerHTML = null;
+      $('#tweetContainer').toggle();
     },
     complete: function(){
 
       $('#loader').hide();
-
+      $('#tweetContainer').toggle();
     }
   });
 
