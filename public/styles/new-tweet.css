@@ -1,4 +1,4 @@
-.new-tweet{
+.new-tweet {
   position: relative;
   top: 40px;
   background-color: #eee;
@@ -7,51 +7,31 @@
   border-radius: 10px;
   margin: 2em;
   padding: 10px;
-  box-shadow: 1px 1px 0.5px #888888;
-
-
-}
-
-.new-tweet h2 {
-  margin-top: 8px;
-  border-bottom: 2px solid #244751;
-}
-
-.new-tweet form{
-}
-.new-tweet textarea{
-  height: 80px;
-  float: left;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.new-tweet footer{
-  overflow: auto;
-}
-
-.new-tweet span{
-  float: right;
-}
-
-.new-tweet input{
-  float: left;
-  width: 20%;
-}
-
-.new-tweet .flashMessage:before{
-  clear:both;
-}
-
-.new-tweet .flashMessage{
-  float: left;
-  color: #ff0000;
-
-  font-weight:bold;
-  padding: 10px;
-}
+  box-shadow: 1px 1px 0.5px #888888; }
+  .new-tweet h2 {
+    margin-top: 8px;
+    border-bottom: 2px solid #244751; }
+  .new-tweet textarea {
+    height: 80px;
+    float: left;
+    width: 100%;
+    margin-bottom: 10px; }
+  .new-tweet footer {
+    overflow: auto; }
+  .new-tweet span {
+    float: right; }
+  .new-tweet input {
+    float: left;
+    width: 20%; }
+  .new-tweet .flashMessage:before {
+    clear: both; }
+  .new-tweet .flashMessage {
+    float: left;
+    color: #ff0000;
+    font-weight: bold;
+    padding: 10px; }
 
 .red {
-  color: #ff0000;
-}
+  color: #ff0000; }
 
+/*# sourceMappingURL=new-tweet.css.map */
