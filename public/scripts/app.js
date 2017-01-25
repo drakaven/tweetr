@@ -69,9 +69,18 @@ $(document).ready(function () {
 
   $('#form1').on('submit', function (event) {
     event.preventDefault();
-    console.log(escape($(this).children('textarea')[0].value))
+    let escaped = escape($(this).children('textarea')[0].value);
+    let flashMess = $(this).children('.flashMessage')[0];
+    if (!escaped || escaped.length > 140) {
+      $(this).parent().css('border', '2px solid red');
+      flashMess.innerHTML = 'Tweets must be between 1 and 140 characters!';
+      return;
+    } else {
+      $(this).parent().css('border', 'none');
+      flashMess.innerHTML  = "";
+    }
     $.post("/tweets"
-      , "text=" + escape($(this).children('textarea')[0].value)
+      , "text=" + escaped
       ).done(function () {
       console.log("done");
       loadTweets();

@@ -34,9 +34,12 @@
       <section class="new-tweet">
         <h2>Compose Tweet</h2>
         <form id="form1">
-          <textarea name="text" placeholder="What are you humming about?"></textarea>
+          <textarea required name="text" placeholder="What are you humming about?"></textarea>
+
           <input type="submit" value="Tweet">
           <span class="counter">140</span>
+
+          <div class="flashMessage"></div>
         </form>
       </section>
       <div id="loader">TEMPLOADER</div>
