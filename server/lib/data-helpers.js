@@ -7,9 +7,13 @@ const simulateDelay = require("./util/simulate-delay");
 module.exports = function makeDataHelpers(db, app) {
   return {
     register: function (user, callback) {
-     console.log("registerPost");
-      db.collection("user").insertOne(user);
-      callback(null, true);
+      console.log("registerPost");
+      db.collection("user").insertOne(user, (err) => {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, true);
+      });
     },
 
     getAuthor : function(loginID, callback){

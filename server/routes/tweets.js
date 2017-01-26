@@ -23,7 +23,7 @@ module.exports = function (DataHelpers) {
     const user = userHelper.generateRandomUser(req.body.loginID);
     DataHelpers.register(user, (err) => {
       if (err) {
-        res.status(500).json({error: err.message});
+        res.status(500).json({error: "duplicate user"});
       } else {
         req.session.loginID = req.body.loginID;
         res.redirect(302, '/');
@@ -41,6 +41,10 @@ module.exports = function (DataHelpers) {
     });
   });
 
+
+  //if not logged generate random user and post
+  //you should refactor this to use promises
+  // and just clean it up
   tweetsRoutes.post("/", function (req, res) {
     if (!req.body.text) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -56,9 +60,6 @@ module.exports = function (DataHelpers) {
         }
       });
     };
-
-    //should have set this to the cookie
-    //if not logged generate random user and post
     if (!req.session.loginID) {
       const user = req.body.user ? req.body.user : userHelper.generateRandomUser(null);
       tweet = {

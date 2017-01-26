@@ -22,6 +22,10 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
     throw err;
   }
 
+  // mongo user name needs to be unique
+  // db.user.ensureIndex( { "name": 1.0 }, { unique: true } )
+
+
   console.log(`Connected to mongodb: ${MONGODB_URI}`);
   let helpers = require("./lib/data-helpers.js")(db);
   let tweetsRoutes = require("./routes/tweets")(helpers);
