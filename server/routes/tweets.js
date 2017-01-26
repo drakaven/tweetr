@@ -6,7 +6,19 @@ const tweetsRoutes = express.Router();
 module.exports = function (DataHelpers) {
 
   tweetsRoutes.post("/login", function (req, res) {
-    //login
+    if (!req.body.loginID) {
+      res.status(400).json({error: 'invalid request: no data in POST body'});
+      return;
+    }
+    DataHelpers.getLogin(req.body.loginID, (err, userInfo) => {
+      if (err) {
+        res.status(500).json({error: err.message});
+      } else {
+        if (!userInfo[0]) return res.status(401).json({error: "User not found"});
+        req.session.loginID = req.body.loginID;
+        res.redirect(302, '/');
+      }
+    });
   });
 
   tweetsRoutes.post("/logout", function (req, res) {
@@ -76,13 +88,13 @@ module.exports = function (DataHelpers) {
     } else {
       //get user
       console.log("loggedIN");
-      const author = DataHelpers.getAuthor(req.session.loginID, (err, tweets) => {
+      const author = DataHelpers.getLogin(req.session.loginID, (err, userInfo) => {
         if (err) {
           res.status(500).json({error: err.message});
         } else {
           tweet = {
             // author info from mongo
-            user : tweets[0],
+            user : userInfo[0],
             content: {
               text: req.body.text
             },

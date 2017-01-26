@@ -6,8 +6,14 @@ const simulateDelay = require("./util/simulate-delay");
 // Defines helper functions for saving and getting tweets, using the database `db`
 module.exports = function makeDataHelpers(db, app) {
   return {
+
+    login: function (user,callback){
+      db.collection("user").find({'name' : user})
+    },
+
+
+
     register: function (user, callback) {
-      console.log("registerPost");
       db.collection("user").insertOne(user, (err) => {
         if (err) {
           return callback(err);
@@ -16,12 +22,12 @@ module.exports = function makeDataHelpers(db, app) {
       });
     },
 
-    getAuthor : function(loginID, callback){
-       db.collection("user").find({"name" : loginID}).toArray((err, tweets) => {
+    getLogin : function(loginID, callback){
+       db.collection("user").find({"name" : loginID}).toArray((err, userInfo) => {
         if (err) {
           return callback(err);
         }
-        callback(null, tweets);
+        callback(null, userInfo);
       });
     },
 
