@@ -5,8 +5,6 @@
   box-shadow: 0 0 10px #222222;
   margin: 1em 0.1em 40px 0;
   font-size: 160%; }
-  .tweet:hover .kiss {
-    display: block; }
 
 .tweet {
   margin: 1em 2em;
@@ -52,8 +50,10 @@
       float: left; }
     .tweet footer .kiss {
       width: 50px;
-      display: none;
-      float: right; }
+      float: right;
+      filter: grayscale(100); }
+    .tweet footer .kissed {
+      filter: none; }
 
 #loader {
   width: 450px;
