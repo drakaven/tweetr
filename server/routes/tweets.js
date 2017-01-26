@@ -9,8 +9,9 @@ module.exports = function (DataHelpers) {
     //login
   });
 
-  tweetsRoutes.delete("/login", function (req, res) {
-    //logout
+  tweetsRoutes.post("/logout", function (req, res) {
+    req.session = null;
+    res.redirect(302, 'http://localhost:8080/');
   });
 
 
