@@ -11,16 +11,10 @@ module.exports = {
     const gender    = chance.gender();
     const firstName = chance.first({gender: gender});
     const lastName  = chance.last();
-    const userName  = loginID;
+    const userName  = (loginID) ? loginID : firstName + " " + lastName;
 
-    let userHandle = "@";
-    if (Math.random() > 0.5) {
-      let prefix    = chance.prefix({gender: gender});
-      prefix = prefix.replace(".", "");
-      userHandle += prefix
-    }
+    let userHandle = "@" + userName;
 
-    userHandle += lastName;
 
     if (Math.random() > 0.5) {
       const suffix = Math.round(Math.random() * 100);
