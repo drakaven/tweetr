@@ -1,12 +1,20 @@
 "use strict";
+const cookieSession = require('cookie-session');
+
 
 // Simulates the kind of delay we see with network or filesystem operations
 const simulateDelay = require("./util/simulate-delay");
 
-// Defines helper functions for saving and getting tweets, using the database `db`
-module.exports = function makeDataHelpers(db) {
-  return {
 
+// Defines helper functions for saving and getting tweets, using the database `db`
+module.exports = function makeDataHelpers(db, app) {
+  return {
+    register: function (user, callback) {
+     console.log("registerPost");
+      db.collection("user").insertOne(user);
+      cookieSession.loginID = user.loginID;
+      callback(null, true);
+    },
     // Saves a tweet to `db`
     saveTweet: function(newTweet, callback) {
       simulateDelay(() => {

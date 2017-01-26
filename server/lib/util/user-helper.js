@@ -7,11 +7,11 @@ const md5 = require('md5');
 
 module.exports = {
 
-  generateRandomUser: () => {
+  generateRandomUser: (loginID) => {
     const gender    = chance.gender();
     const firstName = chance.first({gender: gender});
     const lastName  = chance.last();
-    const userName  = firstName + " " + lastName;
+    const userName  = loginID;
 
     let userHandle = "@";
     if (Math.random() > 0.5) {

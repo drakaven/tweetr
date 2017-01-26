@@ -27,6 +27,17 @@
     <nav id="nav-bar">
       <img class="logo" src="/images/bird.png">
       <span class="header">Tweeter</span>
+      <span>Register</span>
+      <form id="registerForm" method="post" action="http://localhost:8080/tweets/register">
+        <input name="loginID" type="text" >
+        <input type="submit" >
+      </form>
+      <form id="loginForm" action="/tweets/login" method="post">
+        <span>Login</span>
+        <input name="loginID" type="text">
+        <input type="submit" >
+      </form>
+
       <button id="compose">
         <img class="composeIcon" src="/images/compose.png">
         <span>Compose</span></button>
