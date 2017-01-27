@@ -47,12 +47,18 @@
       margin: 0;
       padding: 10px 6px;
       float: left; }
+    .tweet footer .kissBlock {
+      float: right; }
     .tweet footer .kiss {
       width: 50px;
       float: right;
+      padding: 0px 4px 4px 4px;
       filter: grayscale(100); }
     .tweet footer .kissed {
       filter: none; }
+    .tweet footer span {
+      float: right;
+      padding: 10px 8px 2px 2px; }
 
 #loader {
   width: 450px;

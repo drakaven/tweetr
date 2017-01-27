@@ -1,4 +1,9 @@
 const loggedUser = document.cookie.replace("loginID=", "") || null;
+const escape = function (str) {
+  let div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
 
 $(document).ready(function () {
 
@@ -13,13 +18,13 @@ $(document).ready(function () {
   $('#tweetContainer').delegate('.kiss', 'click', function (ev) {
     ev.stopPropagation();
     $(this).toggleClass('kissed');
-    let kisses = Number($(this).next().text());
+    let kisses = Number($(this).prev(".kisses").text());
     if ($(this).hasClass('kissed')) {
       kisses++;
-      $(this).next().text(kisses);
+      $(this).prev(".kisses").text(kisses);
     } else {
       kisses--;
-      $(this).next().text(kisses);
+      $(this).prev(".kisses").text(kisses);
     }
     let tweetId = $(this).closest("article");
     let tempScrollTop = $(window).scrollTop();
@@ -34,15 +39,8 @@ $(document).ready(function () {
     $('.hidden').show();
   }
 
-  //function to make input html safe
-  const escape = function (str) {
-    let div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  };
 
   $('#compose').on('click', function () {
-    console.log("clicked");
     $('.new-tweet').slideToggle(100);
     $('.new-tweet').find('textarea').focus();
   });
@@ -66,31 +64,35 @@ $(document).ready(function () {
     newArticle[0].dataset.author = tweetObject.author;
     newArticle[0].innerHTML = `<header>
       <img class="tweeterAvatar" src=${tweetObject.user.avatars.small}>
-      <h3 class="tweeterName">${tweetObject.user.name}</h3>
-      <p class="tweeterId">${tweetObject.user.handle}</p>
+      <h3 class="tweeterName">${escape(tweetObject.user.name)}</h3>
+      <p class="tweeterId">${escape(tweetObject.user.handle)}</p>
       </header>
-      <p class="tweetText">${tweetObject.content.text}</p>
+      <p class="tweetText">${escape(tweetObject.content.text)}</p>
       <footer>
       <p class="postedDate">${daysAgo}</p>
-      <img class="kiss ${hidden} ${kissed}"  src="/images/kiss-lips-icon.png">
+      <div class="kissBlock">
+      
+      
+      <span>Kiss</span>
       <span class="kisses">${Object.keys(tweetObject.likes).length}</span>
+      <img class="kiss ${hidden} ${kissed}"  src="/images/kiss-lips-icon.png">
+      </div>
       </footer>`
     return newArticle[0];
   };
 
   const renderTweets = function (tweetData) {
+    $('#tweetContainer')[0].innerHTML = null;
     let tweetContainer = $('#tweetContainer');
     for (tweet in tweetData) {
       tweetContainer.append(createTweetElement(tweetData[tweet]));
     }
-
     $('#loader').hide();
     $('#tweetContainer').show();
   };
 
   const loadTweets = function () {
     $.get("/tweets", function (data, status) {
-        $('#tweetContainer')[0].innerHTML = null;
         $('#loader').show();
         $('#tweetContainer').hide();
         renderTweets(data);
@@ -103,9 +105,8 @@ $(document).ready(function () {
 
   $('#form1').on('submit', function (event) {
     event.preventDefault();
-    let escaped = escape($(this).children('textarea')[0].value);
     let flashMess = $(this).children('.flashMessage')[0];
-    if (!escaped || escaped.length > 140) {
+    if ($(this).children('textarea')[0].value.length > 140) {
       $(this).parent().css('border', '2px solid red');
       flashMess.innerHTML = 'Tweets must be between 1 and 140 characters!';
       return;
@@ -114,7 +115,7 @@ $(document).ready(function () {
       flashMess.innerHTML = "";
     }
     $.post("/tweets"
-      , "text=" + escaped
+      , "text=" + $(this).children('textarea')[0].value
     ).done(function () {
       loadTweets();
     });

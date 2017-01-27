@@ -100,7 +100,6 @@ module.exports = function (DataHelpers) {
       });
     };
       //get user
-      console.log("loggedIN");
       const author = DataHelpers.getLogin(req.session.loginID, (err, userInfo) => {
         if (err) {
           res.status(500).json({error: err.message});
