@@ -26,11 +26,6 @@ module.exports = function makeDataHelpers(db, app) {
         ,((err) => {  resolve("Done!"); }))
     },
 
-    login: function (user,callback){
-      db.collection("user").find({'name' : user})
-    },
-
-
     register: function (user, callback) {
       db.collection("user").insertOne(user, (err) => {
         if (err) {
@@ -53,6 +48,9 @@ module.exports = function makeDataHelpers(db, app) {
     saveTweet: function(newTweet, callback) {
       simulateDelay(() => {
         db.collection("tweets").insertOne(newTweet, (err, result) => {
+          if (err) {
+            return callback(err);
+          }
           callback(null, true);
         });
       });

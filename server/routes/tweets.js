@@ -6,6 +6,9 @@ const tweetsRoutes = express.Router();
 module.exports = function (DataHelpers) {
 
 
+  //post to kiss return the tweet and check if use is in likes
+  // if yes remove if not add
+  //should be a put
   tweetsRoutes.post("/kiss", function (req,res){
     if (!req.body.tweetId) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -17,6 +20,7 @@ module.exports = function (DataHelpers) {
     }
     let tweetId = req.body.tweetId;
     let userId = req.session.loginID;
+    //chained promises one get the tweet the next runs logic then updates the tweet
     new Promise((resolve, reject) => {DataHelpers.findTweet(resolve, reject, tweetId)})
       .then((val) =>
         {return new Promise((resolve, reject) => {DataHelpers.kissTweet(resolve, reject, val, userId )})
@@ -24,9 +28,7 @@ module.exports = function (DataHelpers) {
       .then(res.status(201).send());
   });
 
-
-
-
+  //Login simpley checks the user collection for name does not validate a password
   tweetsRoutes.post("/login", function (req, res) {
     if (!req.body.loginID) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -44,13 +46,15 @@ module.exports = function (DataHelpers) {
     });
   });
 
+  //Logout
   tweetsRoutes.post("/logout", function (req, res) {
     req.session = null;
     res.clearCookie("loginID");
     res.redirect(302, '/');
   });
 
-
+  //register check for instance of user insert if not found
+  //based on mongo unique index
   tweetsRoutes.post("/register", function (req, res) {
     if (!req.body.loginID) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -67,7 +71,7 @@ module.exports = function (DataHelpers) {
       }
     });
   });
-
+  //get all tweets
   tweetsRoutes.get("/", function (req, res) {
     DataHelpers.getTweets((err, tweets) => {
       if (err) {
@@ -78,7 +82,7 @@ module.exports = function (DataHelpers) {
     });
   });
 
-
+  //post tweet, gets the user info from use collection, combines this with tweet text then saves
   tweetsRoutes.post("/", function (req, res) {
     if (!req.session.loginID) {
       res.status(401).send("You must be logged in to Tweet!");
@@ -89,23 +93,14 @@ module.exports = function (DataHelpers) {
       return;
     }
     let tweet = null;
-
-    const callSave = function (tweet) {
-      DataHelpers.saveTweet(tweet, (err) => {
-        if (err) {
-          res.status(500).json({error: err.message});
-        } else {
-          res.status(201).send();
-        }
-      });
-    };
-      //get user
+      //get user info based on login
       const author = DataHelpers.getLogin(req.session.loginID, (err, userInfo) => {
+        //nested callback for multiple db calls
         if (err) {
           res.status(500).json({error: err.message});
         } else {
           tweet = {
-            // author info from mongo
+            // add user info from mongo to tweet
             user: userInfo[0],
             content: {
               text: req.body.text
@@ -114,10 +109,17 @@ module.exports = function (DataHelpers) {
             likes: {},
             created_at: Date.now()
           };
-          callSave(tweet);
+          //save the combined data to tweets collection
+          DataHelpers.saveTweet(tweet, (err) => {
+            if (err) {
+              res.status(500).json({error: err.message});
+            } else {
+              res.status(201).send();
+            }
+          });
         }
       });
-
   });
+
   return tweetsRoutes;
 };
