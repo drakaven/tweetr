@@ -1,74 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <!-- Meta Information -->
     <title>Tweeter - Home Page</title>
-
     <!-- External CSS -->
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,700,700i" rel="stylesheet">
-
-
     <!-- App CSS -->
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/nav.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/tweets.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css"/>
+    <link rel="stylesheet" href="/styles/nav.css" type="text/css"/>
+    <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css"/>
+    <link rel="stylesheet" href="/styles/tweets.css" type="text/css"/>
     <!-- External JS -->
     <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
-
     <!-- App JS -->
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
-  </head>
+</head>
+<body>
 
-  <body>
+<!-- Top nav bar (fixed) -->
+<nav id="nav-bar">
+    <img class="logo" src="/images/bird.png">
+    <span class="header">Tweeter</span>
+    <div class="userNav">
+        <div class="loginBlock">
+            <form id="registerForm" method="post" action="/tweets/register">
+                <input name="loginID" type="text">
+                <input type="submit" value="Register">
+            </form>
+            <form id="loginForm" action="/tweets/login" method="post">
 
-    <!-- Top nav bar (fixed) -->
-    <nav id="nav-bar">
-      <img class="logo" src="/images/bird.png">
-      <span class="header">Tweeter</span>
-      <div class ="userNav">
-      <div class="loginBlock">
-      <form id="registerForm" method="post" action="/tweets/register">
-
-        <input name="loginID" type="text" >
-        <input type="submit" value="Register" >
-      </form>
-      <form id="loginForm" action="/tweets/login" method="post">
-
-        <input name="loginID" type="text">
-        <input type="submit" value="Login" >
-      </form>
-      </div>
-      <div class="logoutBlock">
-      <span class="loggerUserName"></span>
-      <form id="logoutForm" action="/tweets/logout" method="post">
-        <input type="submit" class="logoutButton" value="Logout">
-      </form>
-      </div>
-      </div>
-      <button id="compose" class="hidden">
+                <input name="loginID" type="text">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div class="logoutBlock">
+            <span class="loggerUserName"></span>
+            <form id="logoutForm" action="/tweets/logout" method="post">
+                <input type="submit" class="logoutButton" value="Logout">
+            </form>
+        </div>
+    </div>
+    <button id="compose" class="hidden">
         <img class="composeIcon" src="/images/compose.png">
         <span>Compose</span></button>
-    </nav>
+</nav>
 
-    <!-- Page-specific (main) content here -->
-    <main class="container">
-      <section class="new-tweet hidden">
+<!-- Page-specific (main) content here -->
+<main class="container">
+    <section class="new-tweet hidden">
         <h2>Compose Tweet</h2>
         <form id="form1">
-          <textarea required name="text" placeholder="What are you humming about?"></textarea>
-
-          <input type="submit" value="Tweet">
-          <span class="counter">140</span>
-
-          <div class="flashMessage"></div>
+            <textarea required name="text" placeholder="What are you humming about?"></textarea>
+            <input type="submit" value="Tweet">
+            <span class="counter">140</span>
+            <div class="flashMessage"></div>
         </form>
-      </section>
-      <img id="loader" src="/images/spinner.gif">
-      <section id="tweetContainer">
-      </section>
-    </main>
-  </body>
+    </section>
+    <img id="loader" src="/images/spinner.gif">
+    <section id="tweetContainer">
+    </section>
+</main>
+</body>
 </html>

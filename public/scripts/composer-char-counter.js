@@ -1,3 +1,4 @@
+//counter to 140
 $(document).ready(function() {
   $('.new-tweet textarea').on('input', function(){
     let remaining = 140 - this.value.length;

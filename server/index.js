@@ -1,8 +1,8 @@
 "use strict";
 //vagrant
-  //const PORT = 8080;
+//const PORT = 8080;
 //local
-const PORT =  8081
+const PORT = 8081;
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');
@@ -10,29 +10,26 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const MongoClient = require("mongodb").MongoClient;
 const MONGODB_URI = "mongodb://localhost:27017/tweeter";
-
 const app = express();
 
+//middleware
 app.use(cookieSession({
   name: 'session',
   keys: ['prettykitty'],
 }));
-
-
 app.use(cookieParser());
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+//mongo connect
 MongoClient.connect(MONGODB_URI, (err, db) => {
   if (err) {
     console.error(`Failed to connect: ${MONGODB_URI}`);
     throw err;
   }
-
-  // mongo user name needs to be unique
+  // use registrstion is based on a unique index on name in the user collection of mongodb
+  // this may be not be available when reviewing
   // db.user.ensureIndex( { "name": 1.0 }, { unique: true } )
-
 
   console.log(`Connected to mongodb: ${MONGODB_URI}`);
   let helpers = require("./lib/data-helpers.js")(db);

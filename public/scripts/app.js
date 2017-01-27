@@ -1,4 +1,5 @@
 const loggedUser = document.cookie.replace("loginID=", "") || null;
+//html safe escape function
 const escape = function (str) {
   let div = document.createElement('div');
   div.appendChild(document.createTextNode(str));
@@ -7,14 +8,17 @@ const escape = function (str) {
 
 $(document).ready(function () {
 
+  //toggle login blocks visibility
   $(".loggerUserName").text(loggedUser);
   if (loggedUser) {
-    $(".loginBlock").hide()
+    $(".loginBlock").hide();
+    $('.hidden').show();
   } else {
     $(".logoutBlock").hide()
-  };
+  }
+  ;
 
-
+  //delegate listener for kiss clicks
   $('#tweetContainer').delegate('.kiss', 'click', function (ev) {
     ev.stopPropagation();
     $(this).toggleClass('kissed');
@@ -27,38 +31,36 @@ $(document).ready(function () {
       $(this).prev(".kisses").text(kisses);
     }
     let tweetId = $(this).closest("article");
+    //maintain screen postion after post
     let tempScrollTop = $(window).scrollTop();
+    //update the likes array to add or remove user
     $.post("tweets/kiss", "tweetId=" + tweetId[0].dataset.id).complete(
       function () {
         $(window).scrollTop(tempScrollTop)
       })
   });
 
-  //show compose button and new tweet box if logged in
-  if (document.cookie) {
-    $('.hidden').show();
-  }
-
-
+  //show tweet textarea on click of compose button
   $('#compose').on('click', function () {
     $('.new-tweet').slideToggle(100);
     $('.new-tweet').find('textarea').focus();
   });
 
-
+  //generate the tweet html from mongo entry
   const createTweetElement = function (tweetObject) {
     let daysAgo = Math.floor((Date.now() - tweetObject.created_at) / 86400000);
     (!daysAgo) ? daysAgo = "Posted: Today!" : daysAgo = `Posted: ${daysAgo} days ago`;
     let hidden = "";
     let kissed = "";
+    //If i am the author hide the like options
     if (loggedUser === tweetObject.author || loggedUser === null) {
       hidden = "hidden"
     }
+    // If i liked am in the likes collection show the correct image
     if (tweetObject.likes.hasOwnProperty(loggedUser)) {
       kissed = "kissed";
     }
-
-
+    //generate html
     let newArticle = $('<article class="tweet"></article>');
     newArticle[0].dataset.id = tweetObject._id;
     newArticle[0].dataset.author = tweetObject.author;
@@ -70,9 +72,7 @@ $(document).ready(function () {
       <p class="tweetText">${escape(tweetObject.content.text)}</p>
       <footer>
       <p class="postedDate">${daysAgo}</p>
-      <div class="kissBlock">
-      
-      
+      <div class="kissBlock">      
       <span>Kiss</span>
       <span class="kisses">${Object.keys(tweetObject.likes).length}</span>
       <img class="kiss ${hidden} ${kissed}"  src="/images/kiss-lips-icon.png">
@@ -81,6 +81,7 @@ $(document).ready(function () {
     return newArticle[0];
   };
 
+  //loop through returned tweets and call create on each and append to container
   const renderTweets = function (tweetData) {
     $('#tweetContainer')[0].innerHTML = null;
     let tweetContainer = $('#tweetContainer');
@@ -91,6 +92,7 @@ $(document).ready(function () {
     $('#tweetContainer').show();
   };
 
+  //get tweets from db show the load spinner
   const loadTweets = function () {
     $.get("/tweets", function (data, status) {
         $('#loader').show();
@@ -100,6 +102,7 @@ $(document).ready(function () {
     )
   };
 
+  //call on inital page load
   loadTweets();
 
 
