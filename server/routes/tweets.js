@@ -12,7 +12,7 @@ module.exports = function (DataHelpers) {
       return;
     }
     if (!req.session.loginID) {
-      res.status(400).send("You must be logged in to Kiss!");
+      res.status(401).send("You must be logged in to Kiss!");
       return;
     }
     let tweetId = req.body.tweetId;
@@ -81,7 +81,7 @@ module.exports = function (DataHelpers) {
 
   tweetsRoutes.post("/", function (req, res) {
     if (!req.session.loginID) {
-      res.status(400).send("You must be logged in to Tweet!");
+      res.status(401).send("You must be logged in to Tweet!");
       return;
     }
     if (!req.body.text) {

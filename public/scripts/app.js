@@ -3,6 +3,12 @@ const loggedUser = document.cookie.replace("loginID=", "") || null;
 $(document).ready(function () {
 
   $(".loggerUserName").text(loggedUser);
+  if (loggedUser) {
+    $(".loginBlock").hide()
+  } else {
+    $(".logoutBlock").hide()
+  };
+
 
   $('#tweetContainer').delegate('.kiss', 'click', function (ev) {
     ev.stopPropagation();

@@ -1,5 +1,8 @@
 "use strict";
-const PORT = 1241 || 8080;
+//vagrant
+  //const PORT = 8080;
+//local
+const PORT =  8081
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');

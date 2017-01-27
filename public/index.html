@@ -28,7 +28,8 @@
     <nav id="nav-bar">
       <img class="logo" src="/images/bird.png">
       <span class="header">Tweeter</span>
-
+      <div class ="userNav">
+      <div class="loginBlock">
       <form id="registerForm" method="post" action="/tweets/register">
 
         <input name="loginID" type="text" >
@@ -39,12 +40,14 @@
         <input name="loginID" type="text">
         <input type="submit" value="Login" >
       </form>
+      </div>
+      <div class="logoutBlock">
       <span class="loggerUserName"></span>
       <form id="logoutForm" action="/tweets/logout" method="post">
-
-        <input type="submit" value="logout" >
+        <input type="submit" class="logoutButton" value="Logout">
       </form>
-
+      </div>
+      </div>
       <button id="compose" class="hidden">
         <img class="composeIcon" src="/images/compose.png">
         <span>Compose</span></button>
