@@ -5,6 +5,28 @@ const express = require('express');
 const tweetsRoutes = express.Router();
 module.exports = function (DataHelpers) {
 
+
+  tweetsRoutes.post("/kiss", function (req,res){
+    if (!req.body.tweetId) {
+      res.status(400).json({error: 'invalid request: no data in POST body'});
+      return;
+    }
+    if (!req.session.loginID) {
+      res.status(400).send("You must be logged in to Kiss!");
+      return;
+    }
+    let tweetId = req.body.tweetId;
+    let userId = req.session.loginID;
+    new Promise((resolve, reject) => {DataHelpers.findTweet(resolve, reject, tweetId)})
+      .then((val) =>
+        {return new Promise((resolve, reject) => {DataHelpers.kissTweet(resolve, reject, val, userId )})
+        })
+      .then(res.status(201).send());
+  });
+
+
+
+
   tweetsRoutes.post("/login", function (req, res) {
     if (!req.body.loginID) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -16,6 +38,7 @@ module.exports = function (DataHelpers) {
       } else {
         if (!userInfo[0]) return res.status(401).json({error: "User not found"});
         req.session.loginID = req.body.loginID;
+        res.cookie("loginID", req.body.loginID);
         res.redirect(302, '/');
       }
     });
@@ -23,7 +46,8 @@ module.exports = function (DataHelpers) {
 
   tweetsRoutes.post("/logout", function (req, res) {
     req.session = null;
-    res.redirect(302, 'http://localhost:8080/');
+    res.clearCookie("loginID");
+    res.redirect(302, '/');
   });
 
 
@@ -38,6 +62,7 @@ module.exports = function (DataHelpers) {
         res.status(500).json({error: "duplicate user"});
       } else {
         req.session.loginID = req.body.loginID;
+        res.cookie("loginID", req.body.loginID);
         res.redirect(302, '/');
       }
     });
@@ -54,15 +79,17 @@ module.exports = function (DataHelpers) {
   });
 
 
-  //if not logged generate random user and post
-  //you should refactor this to use promises
-  // and just clean it up
   tweetsRoutes.post("/", function (req, res) {
+    if (!req.session.loginID) {
+      res.status(400).send("You must be logged in to Tweet!");
+      return;
+    }
     if (!req.body.text) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
       return;
     }
     let tweet = null;
+
     const callSave = function (tweet) {
       DataHelpers.saveTweet(tweet, (err) => {
         if (err) {
@@ -72,20 +99,6 @@ module.exports = function (DataHelpers) {
         }
       });
     };
-    if (!req.session.loginID) {
-      const user = req.body.user ? req.body.user : userHelper.generateRandomUser(null);
-      tweet = {
-        user: user,
-        content: {
-          text: req.body.text
-        },
-        author: user.username,
-        likes: {},
-        created_at: Date.now()
-      };
-      console.log("loggedOUT");
-      callSave(tweet)
-    } else {
       //get user
       console.log("loggedIN");
       const author = DataHelpers.getLogin(req.session.loginID, (err, userInfo) => {
@@ -94,7 +107,7 @@ module.exports = function (DataHelpers) {
         } else {
           tweet = {
             // author info from mongo
-            user : userInfo[0],
+            user: userInfo[0],
             content: {
               text: req.body.text
             },
@@ -105,7 +118,7 @@ module.exports = function (DataHelpers) {
           callSave(tweet);
         }
       });
-    }
+
   });
   return tweetsRoutes;
 };

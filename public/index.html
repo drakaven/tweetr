@@ -6,7 +6,8 @@
 
     <!-- External CSS -->
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,700,700i" rel="stylesheet">
+
 
     <!-- App CSS -->
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
@@ -27,29 +28,31 @@
     <nav id="nav-bar">
       <img class="logo" src="/images/bird.png">
       <span class="header">Tweeter</span>
-      <span>Register</span>
-      <form id="registerForm" method="post" action="http://localhost:8080/tweets/register">
+
+      <form id="registerForm" method="post" action="/tweets/register">
+
         <input name="loginID" type="text" >
-        <input type="submit" >
+        <input type="submit" value="Register" >
       </form>
       <form id="loginForm" action="/tweets/login" method="post">
-        <span>Login</span>
+
         <input name="loginID" type="text">
-        <input type="submit" >
+        <input type="submit" value="Login" >
       </form>
+      <span class="loggerUserName"></span>
       <form id="logoutForm" action="/tweets/logout" method="post">
-        <span>Logout</span>
-        <input type="submit" >
+
+        <input type="submit" value="logout" >
       </form>
 
-      <button id="compose">
+      <button id="compose" class="hidden">
         <img class="composeIcon" src="/images/compose.png">
         <span>Compose</span></button>
     </nav>
 
     <!-- Page-specific (main) content here -->
     <main class="container">
-      <section class="new-tweet">
+      <section class="new-tweet hidden">
         <h2>Compose Tweet</h2>
         <form id="form1">
           <textarea required name="text" placeholder="What are you humming about?"></textarea>
