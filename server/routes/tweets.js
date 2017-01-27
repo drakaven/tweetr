@@ -5,10 +5,13 @@ const express = require('express');
 const tweetsRoutes = express.Router();
 module.exports = function (DataHelpers) {
 
+  //promiseReject logger
+  const promiseReject = function (reason){
+    console.log('Handle rejected promise ('+reason+') here.');
+  };
 
   //post to kiss return the tweet and check if use is in likes
   // if yes remove if not add
-  //should be a put
   tweetsRoutes.post("/kiss", function (req,res){
     if (!req.body.tweetId) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -24,11 +27,17 @@ module.exports = function (DataHelpers) {
     new Promise((resolve, reject) => {DataHelpers.findTweet(resolve, reject, tweetId)})
       .then((val) =>
         {return new Promise((resolve, reject) => {DataHelpers.kissTweet(resolve, reject, val, userId )})
-        })
-      .then(res.status(201).send());
+        }).catch(
+      function(reason) {
+        promiseReject(reason);
+      })
+      .then(res.status(201).send()).catch(
+      function(reason) {
+        promiseReject(reason);
+      });
   });
 
-  //Login simpley checks the user collection for name does not validate a password
+  //Login simply checks the user collection for name, does not validate a password
   tweetsRoutes.post("/login", function (req, res) {
     if (!req.body.loginID) {
       res.status(400).json({error: 'invalid request: no data in POST body'});
@@ -71,6 +80,7 @@ module.exports = function (DataHelpers) {
       }
     });
   });
+
   //get all tweets
   tweetsRoutes.get("/", function (req, res) {
     DataHelpers.getTweets((err, tweets) => {
